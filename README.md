@@ -95,7 +95,7 @@ Altere `APP_THEME=forest` para trocar a paleta. Para adicionar tema, crie um CSS
 
 ## Testes e validação
 
-`mvn verify` executa testes sem precisar de credenciais Atlas. Eles validam hash, perfil inicial, excesso de bytes, negação de rotas, CSRF, templates, logout, revogação e round-trip/expiração/rotação do repositório de sessões com MongoTemplate simulado. O CI executa os mesmos testes. Esses testes não substituem integração real com Atlas.
+`mvn verify` executa testes sem precisar de credenciais Atlas. Eles validam hash, perfil inicial, excesso de bytes, negação de rotas, CSRF, templates, logout, revogação e round-trip/expiração/rotação do repositório de sessões com MongoTemplate simulado. O CI executa os mesmos testes. Na verificação local, os testes passaram e o JAR foi gerado. O fluxo HTTP completo também foi verificado com MongoDB 8.0.15 local, incluindo cadastro, credenciais incorretas, perfis, promoção, bloqueio, exclusão e logout. O Atlas ainda exige configuração privada e teste no cluster. Esses testes não substituem integração real com Atlas.
 
 Roteiro manual com Atlas: cadastrar uma conta, tentar duplicar e-mail, testar senha incorreta e correta, conferir `users.passwordHash`, conferir `sessions` e TTL, promover a conta a MANAGER no administrador e entrar novamente, verificar 403 para USER, bloquear usuário conectado e verificar revogação, fazer logout e verificar exclusão da sessão. Não inclua capturas com senhas/URIs na entrega.
 
