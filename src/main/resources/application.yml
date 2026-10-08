@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: login-seguro
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      auto-index-creation: true
+  thymeleaf:
+    cache: true
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: never
+    include-stacktrace: never
+app:
+  cookie-secure: ${COOKIE_SECURE:false}
+  theme: ${APP_THEME:default}
