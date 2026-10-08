@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login Seguro</title>
+<link rel="stylesheet" th:href="@{/css/base.css}">
+<link rel="stylesheet" th:href="@{'/css/themes/' + ${theme} + '.css'}">
+</head>
+<body>
+<header>
+<a href="/dashboard">NÚCLEO / Acesso seguro</a>
+<nav sec:authorize="isAuthenticated()">
+<a href="/dashboard">Início</a>
+<a sec:authorize="hasAnyRole('MANAGER','ADMIN')" href="/manager">Gestão</a>
+<a sec:authorize="hasRole('ADMIN')" href="/admin/users">Usuários</a>
+<form th:action="@{/logout}" method="post">
+<button>Sair</button>
+</form>
+</nav>
+</header>
+<main>
+<p class="eyebrow">PAINEL PESSOAL</p>
+<h1>Acesso autorizado.</h1>
+<section class="card">
+<h2>Olá, <span sec:authentication="name">
+</span>
+</h2>
+<p>Sua conta está protegida. Use o menu para acessar os recursos disponíveis ao seu perfil.</p>
+<p>Perfil: <strong sec:authentication="authorities">
+</strong>
+</p>
+</section>
+</main>
+<footer>Base modular para novos projetos · Java + Spring</footer>
+</body>
+</html>
