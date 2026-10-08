@@ -1,1 +1,45 @@
-<!DOCTYPE html><html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Login Seguro</title><link rel="stylesheet" th:href="@{/css/base.css}"><link rel="stylesheet" th:href="@{'/css/themes/' + ${theme} + '.css'}"></head><body><header><a href="/dashboard">NÚCLEO / Acesso seguro</a><nav sec:authorize="isAuthenticated()"><a href="/dashboard">Início</a><a sec:authorize="hasAnyRole('MANAGER','ADMIN')" href="/manager">Gestão</a><a sec:authorize="hasRole('ADMIN')" href="/admin/users">Usuários</a><form th:action="@{/logout}" method="post"><button>Sair</button></form></nav></header><main><section class="card narrow"><p class="eyebrow">NOVA CONTA</p><h1>Vamos começar.</h1><form th:action="@{/register}" th:object="${registration}" method="post"><ul th:if="${#fields.hasErrors('*')}" role="alert"><li th:each="e : ${#fields.errors('*')}" th:text="${e}"></li></ul><label>Nome<input th:field="*{name}" required minlength="2" maxlength="80" autocomplete="name"></label><label>E-mail<input th:field="*{email}" type="email" required maxlength="254" autocomplete="email"></label><label>Senha<input name="password" type="password" required minlength="12" maxlength="64" autocomplete="new-password"></label><small>12 a 64 caracteres, com maiúscula, minúscula e número. Máximo de 72 bytes em UTF-8.</small><button>Criar conta</button></form><a href="/login">Já tenho uma conta</a></section></main><footer>Base modular para novos projetos · Java + Spring</footer></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login Seguro</title>
+<link rel="stylesheet" th:href="@{/css/base.css}">
+<link rel="stylesheet" th:href="@{'/css/themes/' + ${theme} + '.css'}">
+</head>
+<body>
+<header>
+<a href="/dashboard">NÚCLEO / Acesso seguro</a>
+<nav sec:authorize="isAuthenticated()">
+<a href="/dashboard">Início</a>
+<a sec:authorize="hasAnyRole('MANAGER','ADMIN')" href="/manager">Gestão</a>
+<a sec:authorize="hasRole('ADMIN')" href="/admin/users">Usuários</a>
+<form th:action="@{/logout}" method="post">
+<button>Sair</button>
+</form>
+</nav>
+</header>
+<main>
+<section class="card narrow">
+<p class="eyebrow">NOVA CONTA</p>
+<h1>Vamos começar.</h1>
+<form th:action="@{/register}" th:object="${registration}" method="post">
+<ul th:if="${#fields.hasErrors('*')}" role="alert">
+<li th:each="e : ${#fields.errors('*')}" th:text="${e}">
+</li>
+</ul>
+<label>Nome<input th:field="*{name}" required minlength="2" maxlength="80" autocomplete="name">
+</label>
+<label>E-mail<input th:field="*{email}" type="email" required maxlength="254" autocomplete="email">
+</label>
+<label>Senha<input name="password" type="password" required minlength="12" maxlength="64" autocomplete="new-password">
+</label>
+<small>12 a 64 caracteres, com maiúscula, minúscula e número. Máximo de 72 bytes em UTF-8.</small>
+<button>Criar conta</button>
+</form>
+<a href="/login">Já tenho uma conta</a>
+</section>
+</main>
+<footer>Base modular para novos projetos · Java + Spring</footer>
+</body>
+</html>

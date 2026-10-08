@@ -106,4 +106,21 @@ class SecurityTest {
     mvc.perform(post("/logout")).andExpect(status().isForbidden());
     mvc.perform(post("/logout").with(csrf())).andExpect(redirectedUrl("/login?logout"));
   }
+
+  @Test
+  void uncheckedStatusDisablesAccount() throws Exception {
+    account(Role.ADMIN);
+    Account target = new Account();
+    target.id = "2";
+    target.email = "other@example.com";
+    when(repo.findById("2")).thenReturn(Optional.of(target));
+    mvc.perform(
+            post("/admin/users/2")
+                .with(user("person@example.com").roles("ADMIN"))
+                .with(csrf())
+                .param("name", "Outra Pessoa")
+                .param("role", "USER"))
+        .andExpect(redirectedUrl("/admin/users"));
+    verify(service).update("2", "Outra Pessoa", Role.USER, false);
+  }
 }

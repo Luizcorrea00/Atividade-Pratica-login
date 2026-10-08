@@ -66,19 +66,19 @@ public class WebController {
     return "users";
   }
 
-  public record Edit(
-      @NotBlank @Size(min = 2, max = 80) String name, @NotNull Role role, boolean enabled) {}
+  public record Edit(@NotBlank @Size(min = 2, max = 80) String name, @NotNull Role role) {}
 
   @PostMapping("/admin/users/{id}")
   String update(
       @PathVariable String id,
       @Valid @ModelAttribute Edit form,
       BindingResult errors,
+      @RequestParam(defaultValue = "false") boolean enabled,
       Principal principal) {
     if (errors.hasErrors()) return "redirect:/admin/users?invalid";
     Account target = repo.findById(id).orElseThrow();
     if (target.email.equals(principal.getName())) return "redirect:/admin/users?self";
-    service.update(id, form.name(), form.role(), form.enabled());
+    service.update(id, form.name(), form.role(), enabled);
     return "redirect:/admin/users";
   }
 
